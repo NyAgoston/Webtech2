@@ -1,1 +1,1 @@
-# Webtech2
+# Webtech2 University of Miskolc project
