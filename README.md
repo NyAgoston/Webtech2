@@ -13,8 +13,7 @@
 * DB port: 27017 Node server port: 3000 Angular server port: 4200
 
 ## How to run:
-* 
-    * /backend: npm install
-    * /backend: node server.js
-    * /client: npm install
-    * /client: ng serve
+* /backend: npm install
+* /backend: node server.js
+* /client: npm install
+* /client: ng serve
