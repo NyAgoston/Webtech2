@@ -1,4 +1,3 @@
-const express = require('express');
 const jwt = require("jsonwebtoken");
 const httpStatusCode = require('http-status-codes');
 var bcrypt = require("bcryptjs");
@@ -19,32 +18,6 @@ exports.signup = (req,res) =>{
         res.status(httpStatusCode.INTERNAL_SERVER_ERROR).send(err);
     })
 };
-// //sign in user
-// exports.signin = (req,res) =>{
-//     user.findOne({username: req.body.username}).then(user =>{
-//         var passwordIsValid = bcrypt.compareSync(
-//             req.body.password,
-//             user.password
-//         );
-//         if (!passwordIsValid) {
-//             return res.status(401).send({ message: "Invalid Password!" });
-//         }                    
-//         var token = jwt.sign({ id: user.id }, config.secret, {
-//             expiresIn: 86400, // 24 hours
-//         });            
-
-//         req.session.token = token;
-//         res.status(200).send({
-//             id: user._id,
-//             username: user.username,
-//             email: user.email,            
-//         });
-        
-//         return res.status(404).send({ message: "Succesful login." });
-//     }).catch(err => {
-//         return res.status(404).send({ message: "User Not found." });
-//     });
-// };
 //sign user out
 exports.signout = async (req, res) => {
     try {
@@ -54,23 +27,19 @@ exports.signout = async (req, res) => {
       this.next(err);
     }
 };
-
+//bejelentkezés
 exports.signin = async (req, res) => {
     try {
       const user = await User.findOne({ username: req.body.username });
       if (!user) {
-        return res.status(404).send({ message: "User not found." });
+        return res.status(404).send({ message: "No such user" });
       }
-  
       const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
       if (!passwordIsValid) {
         return res.status(401).send({ message: "Invalid Password!" });
-      }
-  
-      const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 });
-  
-      req.session.token = token;
-  
+      }  
+      const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 });  
+      req.session.token = token;  
       res.status(200).send({
         id: user._id,
         username: user.username,

@@ -13,6 +13,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 
 
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { CreatePostComponent } from './create-post/create-post.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
     RegisterComponent,
     HomeComponent,
     ProfileComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,

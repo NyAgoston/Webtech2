@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center mt-4 mb-4">
+    <div class="w-50 p-3 bg-dark rounded-4 text-light"> 
+        <form
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+        >
+        <div class="form-group mt-3">          
+            <input
+              placeholder="Tárgy"
+              type="text"
+              class="form-control"
+              name="title"
+              [(ngModel)]="form.title"
+              required
+              minlength="3"
+              maxlength="20"
+              #title="ngModel"  
+              [ngClass]="{ 'is-invalid': f.submitted && title.errors }"            
+            />
+            <div class="invalid-feedback" *ngIf="title.errors && f.submitted">
+                <div *ngIf="title.errors['required']">A tárgy kötelező</div>
+                <div *ngIf="title.errors['minlength']">
+                  A tárgy minimum 3 karakter hosszú
+                </div>
+                <div *ngIf="title.errors['maxlength']">
+                  A tárgy maximum 20 karakter hosszú
+                </div>
+              </div>        
+          </div>
+          <div class="form-group mt-3">          
+            <input
+              placeholder="Üzenet"
+              type="text"
+              class="form-control"
+              name="text"
+              [(ngModel)]="form.text"
+              required
+              minlength="3"
+              maxlength="50"
+              #text="ngModel"  
+              [ngClass]="{ 'is-invalid': f.submitted && text.errors }"             
+            /> 
+            <div class="invalid-feedback" *ngIf="text.errors && f.submitted">
+                <div *ngIf="text.errors['required']">Az üzenet kötelező</div>
+                <div *ngIf="text.errors['minlength']">
+                  Az üzenet minimum 3 karakter hosszú
+                </div>
+                <div *ngIf="text.errors['maxlength']">
+                  Az üzenet maximum 50 karakter hosszú
+                </div>
+              </div>          
+          </div>
+          <div class="d-flex justify-content-center mt-3">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block">Küldés</button>
+            </div>
+          </div>
+        </form>
+        
+    
+    </div>
+</div>

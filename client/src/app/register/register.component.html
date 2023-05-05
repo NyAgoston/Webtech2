@@ -1,10 +1,7 @@
-<div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+
+<div class="d-flex justify-content-center mt-4 mb-4">
+  <div class="w-50 p-3 bg-dark rounded-4 text-light">    
+      
       <form
         *ngIf="!isSuccessful"
         name="form"
@@ -12,9 +9,10 @@
         #f="ngForm"
         novalidate
       >
-        <div class="form-group">
-          <label for="username">Username</label>
+        <div class="form-group mt-3">
+          
           <input
+            placeholder="Felhasználónév"
             type="text"
             class="form-control"
             name="username"
@@ -26,18 +24,19 @@
             [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
           />
           <div class="invalid-feedback" *ngIf="username.errors && f.submitted">
-            <div *ngIf="username.errors['required']">Username is required</div>
+            <div *ngIf="username.errors['required']">A felhasználónév kötelező</div>
             <div *ngIf="username.errors['minlength']">
-              Username must be at least 3 characters
+              A felhasználónév minimum 3 karakter hosszú
             </div>
             <div *ngIf="username.errors['maxlength']">
-              Username must be at most 20 characters
+              A felhasználónév maximum 20 karakter hosszú
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <label for="email">Email</label>
+        <div class="form-group mt-4">
+          
           <input
+            placeholder="Email"
             type="email"
             class="form-control"
             name="email"
@@ -48,15 +47,16 @@
             [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
           />
           <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
-            <div *ngIf="email.errors['required']">Email is required</div>
+            <div *ngIf="email.errors['required']">Az email kötelező</div>
             <div *ngIf="email.errors['email']">
-              Email must be a valid email address
+              Érvényes email címnek kell lennie
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
+        <div class="form-group mt-4">
+          
           <input
+            placeholder="Jelszó"
             type="password"
             class="form-control"
             name="password"
@@ -67,23 +67,28 @@
             [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
           />
           <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
-            <div *ngIf="password.errors['required']">Password is required</div>
+            <div *ngIf="password.errors['required']">A jelszó kötelező</div>
             <div *ngIf="password.errors['minlength']">
-              Password must be at least 6 characters
+              A jelszó minimum 6 karakter hosszú
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block">Sign Up</button>
+        <div class="d-flex justify-content-center mt-3">
+          <div class="form-group">
+            <button class="btn btn-primary btn-block">Regisztráció</button>
+          </div>
         </div>
   
         <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-          Signup failed!<br />{{ errorMessage }}
+          Sikertelen Regisztráció!<br />{{ errorMessage }}
         </div>
       </form>
+     
+     
+        <div class="alert alert-success" *ngIf="isSuccessful">
+          Sikeres Regisztráció!
+        </div>
   
-      <div class="alert alert-success" *ngIf="isSuccessful">
-        Your registration is successful!
-      </div>
-    </div>
+      
   </div>
+</div>

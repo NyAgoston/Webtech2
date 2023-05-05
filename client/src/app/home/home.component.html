@@ -1,5 +1,68 @@
 <div class="container">
     <header class="jumbotron">
-      <p>{{ content }}</p>
+      <div *ngFor="let posts of posts$ | async">
+        <div class="d-flex justify-content-center mt-4 mb-4">
+          <div class="w-50 p-3 bg-dark rounded-4">    
+            <div class="d-flex justify-content-between">                            
+              <div>
+                <a class="text-light bold_text" style="text-decoration: none;">{{posts.username}}</a> 
+              </div>                                           
+              
+              <div class="">
+                <a class="text-light" style="text-decoration: none;">{{posts.date}}</a>
+              </div>
+              <img src="../assets/vbse.png" alt="..." height="40">
+            </div>    
+            <a class="text-light" style="text-decoration: none;">{{posts.title}}</a>
+            <hr style="color:white">      
+            <div style="text-align: center;">
+              <a class="text-light">{{posts.text}}</a>
+            </div >                                            
+            <hr style="color:white">  
+                      
+                      
+            <button class="astext" (click)="onOpenComment(posts._id || '')">Hozzászólások</button>
+            <div *ngIf="isOpened && posts._id == OpenedPost">
+              <hr style="color:white">
+              <form
+              name="form"
+              (ngSubmit)="f.form.valid && onSubmit(posts._id || '')"
+              #f="ngForm"
+              novalidate
+              >
+              <div class="form-group mt-3">                            
+                </div>
+                <div class="input-group mb-3">          
+                  <input
+                    placeholder="Üzenet"
+                    type="text"
+                    class="form-control"
+                    name="text"
+                    [(ngModel)]="form.text"
+                    required
+                    minlength="3"
+                    maxlength="50"
+                    #text="ngModel"  
+                    [ngClass]="{ 'is-invalid': f.submitted && text.errors }"             
+                  />                  
+                    <button class="btn btn-secondary btn-block">Küldés</button>        
+                </div>                                   
+              </form>
+              <div class="mb-3" *ngIf="commentErr">
+                <a class="error">A kommenteléshez jelentkezz be.</a>
+              </div>
+              <div  *ngFor="let comments of comments$ | async">                                
+                <div  *ngIf="posts._id == comments.post_id">                  
+                  <div class=" mb-3 ">
+                    <a class="text-light bold_text" style="text-decoration: none;">-{{comments.username}}: </a>
+                    <a class="text-light" style="text-decoration: none;">{{comments.text}}</a>
+                  </div>                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </header>
   </div>

@@ -1,6 +1,118 @@
 <div class="container">
     <header class="jumbotron">
-      <p>{{ content }}</p>
+      <div *ngFor="let posts of posts$ | async">
+        <div class="d-flex justify-content-center mt-4 mb-4">
+          <div class="w-50 p-3 bg-dark rounded-4">    
+            <div class="d-flex justify-content-between">  
+              <div>
+                <a class="text-light" style="text-decoration: none;">{{posts.username}}</a> 
+              </div>                                                                                              
+              <div class="">
+                <a class="text-light" style="text-decoration: none;">{{posts.date}}</a>
+              </div>
+               
+              <img src="../assets/vbse.png" alt="..." height="40">
+            </div>    
+            <div class="d-flex justify-content-center">      
+                <a class="text-light" style="text-decoration: none;">{{posts.title}}</a>                            
+            </div>
+            
+            <hr style="color:white">   
+            <div style="text-align: center;">
+              <a class="text-light">{{posts.text}}</a>
+            </div>                                               
+            
+            <hr style="color:white"> 
+           
+            <div class="d-flex justify-content-center">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button ttype="button" (click)="onModify(posts._id || '')" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Módosítás</button>              
+                <button type="button" (click)="onDelete(posts._id || '')" class="btn btn-danger">Törlés</button>
+              </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+    
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content bg-dark">
+            <div class="d-flex justify-content-between">                            
+              <div>
+                <a class="text-light" style="text-decoration: none;">{{modal_username}}</a> 
+              </div>                                           
+              <img src="../assets/vbse.png" alt="..." height="40">
+              <div class="">
+                <a class="text-light" style="text-decoration: none;">{{modal_date}}</a>
+              </div>
+            </div>  
+            <div class="modal-body">
+              <form
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+        >
+        <div class="form-group mt-3">          
+            <input
+              value={{modal_title}}
+              type="text"
+              class="form-control"
+              name="title"
+              [(ngModel)]="form.title"
+              required
+              minlength="3"
+              maxlength="20"
+              #title="ngModel"  
+              [ngClass]="{ 'is-invalid': f.submitted && title.errors }"            
+            />
+            <div class="invalid-feedback" *ngIf="title.errors && f.submitted">
+                <div *ngIf="title.errors['required']">A tárgy kötelező</div>
+                <div *ngIf="title.errors['minlength']">
+                  A tárgy minimum 3 karakter hosszú
+                </div>
+                <div *ngIf="title.errors['maxlength']">
+                  A tárgy maximum 20 karakter hosszú
+                </div>
+              </div>        
+            </div>
+            <div class="form-group mt-3">          
+              <input
+                value={{modal_text}}
+                type="text"
+                class="form-control"
+                name="text"
+                [(ngModel)]="form.text"
+                required
+                minlength="3"
+                maxlength="50"
+                #text="ngModel"  
+                [ngClass]="{ 'is-invalid': f.submitted && text.errors }"             
+              /> 
+              <div class="invalid-feedback" *ngIf="text.errors && f.submitted">
+                  <div *ngIf="text.errors['required']">Az üzenet kötelező</div>
+                  <div *ngIf="text.errors['minlength']">
+                    Az üzenet minimum 3 karakter hosszú
+                  </div>
+                  <div *ngIf="text.errors['maxlength']">
+                    Az üzenet maximum 20 karakter hosszú
+                  </div>
+                </div>          
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+              <div class="form-group">
+                <button class="btn btn-primary btn-block">Módosítás</button>
+              </div>
+            </div>
+          </form>
+          
+         
+            </div>
+            
+          </div>
+        </div>
+      </div>
     </header>
   </div>
   

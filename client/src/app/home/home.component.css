@@ -1,0 +1,18 @@
+.astext {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    cursor: pointer;
+    color: white;
+    text-decoration: underline;
+}
+
+.bold_text{
+    font-weight: bold;
+}
+
+.error{
+    color:red;
+    font-size: small;
+}

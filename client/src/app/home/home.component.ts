@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../_services/user.service';
+import { Observable } from 'rxjs';
+import { PostService } from '../_services/post.service';
+import { CommentService } from '../_services/comment.service';
+import { Posts } from '../interfaces/posts';
+import { Comments } from '../interfaces/comments';
+
+
 
 @Component({
   selector: 'app-home',
@@ -7,27 +13,57 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  content?: string;
+  posts$: Observable<Posts[]> = new Observable();
+  comments$: Observable<Comments[]> = new Observable();
+  isOpened = false;
+  OpenedPost?: string;
+  commentErr = false;
+  
 
-  constructor(private userService: UserService) { }
+  form: any ={
+    text: null,
+  }
+  constructor(private PostService: PostService,private CommentService: CommentService) { }
 
   ngOnInit(): void {
-    this.userService.getPublicContent().subscribe({
-      next: data => {
-        this.content = data;
+    this.fetchPosts();
+    
+  }
+
+  private fetchPosts(): void {
+    this.posts$ = this.PostService.getPosts();
+    
+  }
+  private fetchComments(): void {
+    this.comments$ = this.CommentService.getAllComment();    
+  }
+  onOpenComment(post_id: string): void{
+    if(this.OpenedPost != post_id){
+      this.isOpened = true;
+      
+    }else{
+      this.isOpened = !this.isOpened;
+    }
+    this.commentErr = false;
+    this.OpenedPost = post_id;
+    console.log(this.isOpened);
+    this.fetchComments();
+  }
+
+  onSubmit(post_id: string): void {
+    const {text} = this.form;
+    this.CommentService.createComment(post_id,text).subscribe({
+      next: data =>{
+        console.log(data);
+        
+        window.location.reload();
       },
       error: err => {
-        if (err.error) {
-          try {
-            const res = JSON.parse(err.error);
-            this.content = res.message;
-          } catch {
-            this.content = `Error with status: ${err.status} - ${err.statusText}`;
-          }
-        } else {
-          this.content = `Error with status: ${err.status}`;
-        }
+        console.log(err);
+        this.commentErr = true;
       }
     });
+    
   }
+
 }
